@@ -6,7 +6,7 @@ const circles = document.querySelectorAll('.circle');
 
 
 let currentIndex = 0;
-let imgCurrent = li.querySelector('img');
+let imgElement = li.querySelector('img');
 
 const imgs = [
     "./assets/img-1.jpg",
@@ -16,6 +16,10 @@ const imgs = [
     "./assets/img-5.jpg",
     "./assets/img-6.jpg",
 ];
+
+function setAttributeImg(index) {
+    imgElement.setAttribute('src',imgs[index]);
+}
 
 function markCirle(index) {
     const circlesWrapper = document.querySelector(".circles");
@@ -34,9 +38,8 @@ buttonRight.onclick = function() {
     if( currentIndex >= imgs.length) {
         currentIndex = 0;
     }
-    imgCurrent.setAttribute('src',imgs[currentIndex]);
+    setAttributeImg(currentIndex);
     markCirle(currentIndex);
-
 }
 
 buttonLeft.onclick = function() {
@@ -44,11 +47,8 @@ buttonLeft.onclick = function() {
     if(currentIndex < 0) {
         currentIndex = imgs.length - 1;
     }
-    imgCurrent.setAttribute('src',imgs[currentIndex]);
+    setAttributeImg(currentIndex);
     markCirle(currentIndex);
-    
-    
-   
 }
 
 
@@ -56,7 +56,7 @@ buttonLeft.onclick = function() {
 for(let i=0; i< circles.length; i++) {
     circles[i].onclick = function() {
         currentIndex = i;
-        imgCurrent.setAttribute('src',imgs[currentIndex]);
+        setAttributeImg(currentIndex);
         markCirle(currentIndex);
     }
 }
