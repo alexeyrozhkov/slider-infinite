@@ -1,83 +1,50 @@
 const ul = document.querySelector('.inner-lists');
 const buttonRight = document.querySelector(".right");
 const buttonLeft = document.querySelector(".left");
-const lis = document.querySelectorAll('.inner-list');
+const li = document.querySelector('.inner-list');
 const circles = document.querySelectorAll('.circle');
 
-const SLIDES_TOTAL = lis.length;
-const SLIDES_COUNT = 1;
-const imgWidth = 420;
+
+const quantityImgs = 5;
+
 let currentIndex = 0;
+let imgCurrent = li.querySelector('img');
 
-function shouldDisableLeftButton() {
-    return currentIndex === 0;
-}
+const imgs = [
+    "./assets/img-1.jpg",
+    "./assets/img-2.jpg",
+    "./assets/img-3.jpg",
+    "./assets/img-4.jpg",
+    "./assets/img-5.jpg",
+    "./assets/img-6.jpg",
+];
 
-function shouldDisableRightButton() {
-    return currentIndex === SLIDES_TOTAL - 1;
-}
 
-function disableLeftButton() {
-    buttonLeft.setAttribute("disabled", "disabled"); 
-    buttonLeft.classList.add('disabled');
-}
-
-function undisabledLeftButton() {
-    buttonLeft.removeAttribute("disabled", "disabled");
-    buttonLeft.classList.remove('disabled');
-}
-
-function disableRightButton() {
-    buttonRight.setAttribute("disabled", "disabled"); 
-    buttonRight.classList.add('disabled');
-}
-
-function undisableRightButton() {
-    buttonRight.removeAttribute("disabled", "disabled");
-    buttonRight.classList.remove('disabled'); 
-}
-
-function markCirle(index) {
-    const circlesWrapper = document.querySelector(".circles");
-    const selected = circlesWrapper.querySelector(".selected");
-    if (selected) {
-        selected.classList.remove("selected");
+buttonRight.onclick = function() {
+    imgCurrent.setAttribute('src',imgs[currentIndex+1]);
+    currentIndex++;
+    if( currentIndex >= quantityImgs) {
+        currentIndex = -1;
     }
-    circles[index].classList.add("selected");
-}
+    
 
-markCirle(currentIndex);
-disableLeftButton();
+}
 
 buttonLeft.onclick = function() {
+    if(currentIndex <= 0) {
+        currentIndex = 6;
+    }
+    imgCurrent.setAttribute('src',imgs[currentIndex-1]);
     currentIndex--;
-    const currentMarginLeft = parseInt(ul.style.marginLeft); 
-    ul.style.marginLeft = currentMarginLeft + imgWidth + 'px';
-    markCirle(currentIndex);
-    undisableRightButton();
-    if (shouldDisableLeftButton()) {
-        disableLeftButton();
-    }
+    
+   
 }
- 
-buttonRight.onclick = function() {
-    currentIndex++;
-    const currentMarginLeft = parseInt(ul.style.marginLeft);
-    ul.style.marginLeft = currentMarginLeft - imgWidth + 'px';
-    markCirle(currentIndex);
-    undisabledLeftButton();
-    if (shouldDisableRightButton()) {
-        disableRightButton();
-    }
 
-}
+
 
 for(let i=0; i< circles.length; i++) {
     circles[i].onclick = function() {
         currentIndex = i;
-        shouldDisableLeftButton() ? disableLeftButton() : undisabledLeftButton();
-        shouldDisableRightButton() ? disableRightButton() : undisableRightButton();
-        ul.style.marginLeft = 0 - imgWidth * circles[currentIndex].dataset.number + "px";
         markCirle(currentIndex);
     }
 }
