@@ -5,8 +5,6 @@ const li = document.querySelector('.inner-list');
 const circles = document.querySelectorAll('.circle');
 
 
-const quantityImgs = 5;
-
 let currentIndex = 0;
 let imgCurrent = li.querySelector('img');
 
@@ -19,23 +17,36 @@ const imgs = [
     "./assets/img-6.jpg",
 ];
 
+function markCirle(index) {
+    const circlesWrapper = document.querySelector(".circles");
+    const selected = circlesWrapper.querySelector(".selected");
+    if (selected) {
+        selected.classList.remove("selected");
+    }
+    circles[index].classList.add("selected");
+}
+
+markCirle(currentIndex);
+
 
 buttonRight.onclick = function() {
-    imgCurrent.setAttribute('src',imgs[currentIndex+1]);
     currentIndex++;
-    if( currentIndex >= quantityImgs) {
-        currentIndex = -1;
+    if( currentIndex >= imgs.length) {
+        currentIndex = 0;
     }
-    
+    imgCurrent.setAttribute('src',imgs[currentIndex]);
+    markCirle(currentIndex);
 
 }
 
 buttonLeft.onclick = function() {
-    if(currentIndex <= 0) {
-        currentIndex = 6;
-    }
-    imgCurrent.setAttribute('src',imgs[currentIndex-1]);
     currentIndex--;
+    if(currentIndex < 0) {
+        currentIndex = imgs.length - 1;
+    }
+    imgCurrent.setAttribute('src',imgs[currentIndex]);
+    markCirle(currentIndex);
+    
     
    
 }
@@ -45,6 +56,7 @@ buttonLeft.onclick = function() {
 for(let i=0; i< circles.length; i++) {
     circles[i].onclick = function() {
         currentIndex = i;
+        imgCurrent.setAttribute('src',imgs[currentIndex]);
         markCirle(currentIndex);
     }
 }
